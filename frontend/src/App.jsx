@@ -12,6 +12,7 @@ import CompanySetup from './components/CompanySetup'
 import CompanyCreate from './components/CompanyCreate'
 import Browse from './components/Browse'
 import CreateJobs from './components/admin/CreateJobs'
+import JobEdit from './components/admin/JobEdit'
 import ProtectedRoute from './components/admin/ProtectedRoute'
 import Applicants from './components/admin/Applicants'
 import Footer from './components/shared/Footer'
@@ -57,6 +58,10 @@ const appRouter = createBrowserRouter([
   {
     path:"/admin/jobs/:id/applicants",
     element:<ProtectedRoute><Applicants/></ProtectedRoute> 
+  },
+  {
+    path:"/admin/jobs/:id/edit",
+    element:<ProtectedRoute><JobEdit/></ProtectedRoute> 
   },
   {
     path:"/admin/companies",
