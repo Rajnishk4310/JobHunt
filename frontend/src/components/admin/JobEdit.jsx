@@ -42,13 +42,13 @@ const JobEdit = () => {
       setInput({
         title: singleJobById.title || "",
         description: singleJobById.description || "",
-        requirements: singleJobById.requirements || "",
+        requirements: singleJobById.requirements?.join(", ") || "",
         salary: singleJobById.salary || "",
         location: singleJobById.location || "",
         jobType: singleJobById.jobType || "",
         experience: singleJobById.experience || "",
         position: singleJobById.position || 0,
-        companyId: singleJobById.companyId || "",
+        companyId: singleJobById.company?._id || "",
       });
     }
   }, [singleJobById]);
@@ -59,7 +59,7 @@ const JobEdit = () => {
 
   const handleSelectChange = (value) => {
     const selectedCompany = companies.find(
-      (company) => company.name.toLowerCase() === value
+      (company) => company.name.toLowerCase() === value.toLowerCase()
     );
     setInput({ ...input, companyId: selectedCompany._id });
   };
@@ -67,21 +67,14 @@ const JobEdit = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     const formData = {
-      title: input.title,
-      description: input.description,
-      requirements: input.requirements,
-      salary: input.salary,
-      location: input.location,
-      jobType: input.jobType,
-      experience: input.experience,
-      position: input.position,
-      companyId: input.companyId,
+      ...input,
+      requirements: input.requirements.split(",").map(req => req.trim()),
     };
 
     try {
       dispatch(setLoading(true));
       const res = await axios.put(
-        `http://localhost:8000/api/v1/job/update/${params.id}`,
+        `http://localhost:8000/api/v1/job/${params.id}`,
         formData,
         {
           headers: {
@@ -193,25 +186,23 @@ const JobEdit = () => {
                 className="focus-visible:ring-offset-0 focus-visible:ring-0 my-1"
               />
             </div>
-            {companies.length !== 0 && (
-              <Select onValueChange={handleSelectChange}>
-                <SelectTrigger className="w-[180px]">
-                  <SelectValue placeholder="Select a Company" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup>
-                    {companies.map((company) => (
-                      <SelectItem
-                        key={company?._id}
-                        value={company?.name.toLowerCase()}
-                      >
-                        {company?.name}
-                      </SelectItem>
-                    ))}
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            )}
+          </div>
+          <div className="my-4">
+            <Label>Company</Label>
+            <Select onValueChange={handleSelectChange} defaultValue={input.companyId}>
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Select a company" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {companies?.map((company) => (
+                    <SelectItem key={company._id} value={company.name}>
+                      {company.name}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
           </div>
           <Button
             onClick={submitHandler}
@@ -220,11 +211,6 @@ const JobEdit = () => {
           >
             Update
           </Button>
-          {companies.length === 0 && (
-            <p className="text-red-600 text-xs font-bold text-center my-3">
-              *Please register a company first, before posting jobs
-            </p>
-          )}
         </div>
       </div>
     </div>
