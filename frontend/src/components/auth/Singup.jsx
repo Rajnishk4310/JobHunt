@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react'
-import Navbar from '../shared/Navbar'
-import { Label } from '../ui/label'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
-import { RadioGroup, } from '../ui/radio-group'
-import axios from 'axios'
-import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
-import { useDispatch, useSelector } from 'react-redux'
-import { setLoading } from '@/redux/authSlice'
-import { Loader2 } from 'lucide-react'
+import React, { useEffect, useState } from 'react';
+import Navbar from '../shared/Navbar';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { RadioGroup } from '../ui/radio-group';
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLoading } from '@/redux/authSlice';
+import { Loader2 } from 'lucide-react';
 
-const Singup = () => {
+const Signup = () => {
   const [input, setInput] = useState({
     fullname: "",
     email: "",
@@ -27,9 +27,10 @@ const Singup = () => {
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value });
   };
+
   const changeFileHandler = (e) => {
     setInput({ ...input, file: e.target.files?.[0] });
-  }
+  };
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -42,6 +43,7 @@ const Singup = () => {
     if (input.file) {
       formData.append("file", input.file);
     }
+
     try {
       dispatch(setLoading(true));
       const res = await axios.post("https://job-hunt-fawn.vercel.app/api/v1/user/register", formData, {
@@ -55,19 +57,21 @@ const Singup = () => {
         toast.success(res.data.message);
       }
     } catch (error) {
-      console.log(error);
-      toast.error(error.response.data.message);
+      console.error("Registration Error:", error); // Enhanced error logging
+      toast.error(error.response?.data?.message || "An error occurred during registration.");
     } finally {
       dispatch(setLoading(false));
     }
-  }
+  };
+
   useEffect(() => {
     if (authUser?.role === 'recruiter') {
       navigate("/admin/companies");
     } else if (authUser?.role === 'student') {
       navigate("/");
     }
-  }, [])
+  }, [authUser, navigate]);
+
   return (
     <>
       <Navbar />
@@ -166,4 +170,4 @@ const Singup = () => {
   )
 }
 
-export default Singup
+export default Signup;
