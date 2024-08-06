@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
+
 const jobSlice = createSlice({
     name: "job",
     initialState: {
-        allJobs: null,
+        allJobs: [], // Initialize as an empty array
         singleJobById: null,
         searchText: "", 
         apply: false,
@@ -30,6 +31,7 @@ const jobSlice = createSlice({
         }
     }
 });
+
 export const {
     setAllJobs,
     setSingleJobById,
@@ -38,4 +40,5 @@ export const {
     setAdminJobs,
     setSearchAdminJobs,
 } = jobSlice.actions;
+
 export default jobSlice.reducer;

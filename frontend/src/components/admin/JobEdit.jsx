@@ -74,7 +74,7 @@ const JobEdit = () => {
     try {
       dispatch(setLoading(true));
       const res = await axios.put(
-        `https://job-hunt-fawn.vercel.app/api/v1/job/${params.id}`,
+        `http://localhost:8000/api/v1/job/${params.id}`,
         formData,
         {
           headers: {
