@@ -1,58 +1,58 @@
-import React, { useEffect, useState } from 'react'
-import Navbar from '../shared/Navbar'
-import { Label } from '../ui/label'
-import { Input } from '../ui/input'
-import { Button } from '../ui/button'
-import { RadioGroup, RadioGroupItem } from '../ui/radio-group'
-import axios from 'axios'
-import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'sonner'
-import { useDispatch, useSelector } from 'react-redux'
-import { setAuthUser, setLoading } from '@/redux/authSlice'
-import { Loader2 } from 'lucide-react'
+import React, { useEffect, useState } from 'react';
+import Navbar from '../shared/Navbar';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { RadioGroup } from '../ui/radio-group'; // Adjust if needed
+import axios from 'axios';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
+import { useDispatch, useSelector } from 'react-redux';
+import { setAuthUser, setLoading } from '@/redux/authSlice';
+import { Loader2 } from 'lucide-react';
 
 const Login = () => {
-    const [input, setInput] = useState({
-        email: "",
-        password: "",
-        role: ""
-    });
+    const [input, setInput] = useState({ email: "", password: "", role: "" });
     const { loading, authUser } = useSelector(store => store.auth);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
     const changeEventHandler = (e) => {
-        setInput({ ...input, [e.target.name]: e.target.value });
-    }
+        setInput(prevInput => ({ ...prevInput, [e.target.name]: e.target.value }));
+    };
+
     const submitHandler = async (e) => {
         e.preventDefault();
-        
         try {
             dispatch(setLoading(true));
-            const res = await axios.post("https://job-hunt-fawn.vercel.app/api/v1/user/login", input, {
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+            const { data } = await axios.post("https://job-hunt-fawn.vercel.app/api/v1/user/login", input, {
+                headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             });
-            if (res.data.success) {
-                dispatch(setAuthUser(res.data.user));
+
+            if (data.success) {
+                dispatch(setAuthUser(data.user));
                 navigate("/");
-                toast.success(res.data.message);
+                toast.success(data.message);
             }
         } catch (error) {
             console.log(error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "An error occurred");
         } finally {
             dispatch(setLoading(false));
         }
-    }
-    useEffect(()=>{
-        if(authUser?.role === 'recruiter'){
-            navigate("/admin/companies");
-        }else if(authUser?.role === 'student'){
-            navigate("/");
+    };
+
+    useEffect(() => {
+        if (authUser) {
+            if (authUser.role === 'recruiter') {
+                navigate("/admin/companies");
+            } else if (authUser.role === 'student') {
+                navigate("/");
+            }
         }
-    },[])
+    }, [authUser, navigate]);
+
     return (
         <>
             <Navbar />
@@ -101,21 +101,22 @@ const Login = () => {
                             <Label htmlFor="r2">Recruiter</Label>
                         </div>
                     </RadioGroup>
-                    {
-                        loading ? (
-                            <Button className='w-full my-4'>
-                                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
-                                Please wait
-                            </Button>
-                        ) : (
-                            <Button type="submit" className='w-full my-4'>Login</Button>
-                        )
-                    }
-                    <span className='text-sm'>Don't have an account? <Link to={"/signup"} className='text-blue-500 cursor-pointer underline'>Signup</Link></span>
+                    {loading ? (
+                        <Button className='w-full my-4'>
+                            <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                            Please wait
+                        </Button>
+                    ) : (
+                        <Button type="submit" className='w-full my-4'>Login</Button>
+                    )}
+                    <span className='text-sm'>
+                        Don't have an account? 
+                        <Link to={"/signup"} className='text-blue-500 cursor-pointer underline'>Signup</Link>
+                    </span>
                 </form>
             </div>
         </>
-    )
-}
+    );
+};
 
-export default Login
+export default Login;

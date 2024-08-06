@@ -5,19 +5,29 @@ import { useDispatch } from "react-redux";
 
 const useGetAllAdminJobs = () => {
     const dispatch = useDispatch();
+
     useEffect(() => {
         const fetchAdminJobs = async () => {
             try {
-                axios.defaults.withCredentials = true;
-                const res = await axios.get('https://job-hunt-fawn.vercel.app/api/v1/job/getadminjobs');
-                if(res.data.success){ 
-                    dispatch(setAdminJobs(res.data.jobs));
+                axios.defaults.withCredentials = true; // Ensure cookies are sent with requests
+                const token = localStorage.getItem('authToken'); // Adjust to your method of storing tokens
+                const response = await axios.get('https://job-hunt-fawn.vercel.app/api/v1/job/getadminjobs', {
+                    headers: {
+                        Authorization: `Bearer ${token}` // Adjust token type if needed
+                    }
+                });
+                if (response.data.success) { 
+                    dispatch(setAdminJobs(response.data.jobs));
                 }
             } catch (error) {
-                console.log(error);
+                console.error("Failed to fetch admin jobs:", error);
             }
-        }
+        };
+
         fetchAdminJobs();
-    }, []);
-}
+    }, [dispatch]);
+
+    return {};
+};
+
 export default useGetAllAdminJobs;
