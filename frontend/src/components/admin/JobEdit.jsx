@@ -8,6 +8,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setLoading } from "@/redux/authSlice";
 import useGetJobById from "@/hooks/useGetJobById";
+import { server } from '@/utils/constant'
 import {
   Select,
   SelectContent,
@@ -74,7 +75,7 @@ const JobEdit = () => {
     try {
       dispatch(setLoading(true));
       const res = await axios.put(
-        `https://job-hunt-fawn.vercel.app/api/v1/job/${params.id}`,
+        `${server}/api/v1/job/${params.id}`,
         formData,
         {
           headers: {

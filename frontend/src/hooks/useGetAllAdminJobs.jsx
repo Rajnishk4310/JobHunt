@@ -2,6 +2,7 @@ import { setAdminJobs } from "@/redux/jobSlice";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { server } from '@/utils/constant'
 
 const useGetAllAdminJobs = () => {
     const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const useGetAllAdminJobs = () => {
             try {
                 axios.defaults.withCredentials = true; // Ensure cookies are sent with requests
                 const token = localStorage.getItem('authToken'); // Adjust to your method of storing tokens
-                const response = await axios.get('https://job-hunt-fawn.vercel.app/api/v1/job/getadminjobs', {
+                const response = await axios.get(`${server}/api/v1/job/getadminjobs`, {
                     headers: {
                         Authorization: `Bearer ${token}` // Adjust token type if needed
                     }

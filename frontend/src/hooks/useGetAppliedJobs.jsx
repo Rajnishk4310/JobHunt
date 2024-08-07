@@ -2,6 +2,7 @@ import { setAllAppliedJobs } from '@/redux/applicationSlice';
 import axios from 'axios'
 import { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
+import { server } from '@/utils/constant'
 
 const useGetAppliedJobs = () => {
     const dispatch = useDispatch();
@@ -9,7 +10,7 @@ const useGetAppliedJobs = () => {
         const fetchAppliedJobs = async () => {
             try {
                 axios.defaults.withCredentials = true;
-                const res = await axios.get('https://job-hunt-fawn.vercel.app/api/v1/application/get');
+                const res = await axios.get(`${server}/api/v1/application/get`);
                 if (res.data.success) {
                     dispatch(setAllAppliedJobs(res.data.application))
                 }

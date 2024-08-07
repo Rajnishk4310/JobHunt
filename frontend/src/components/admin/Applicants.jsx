@@ -6,6 +6,7 @@ import ApplicantsTable from './ApplicantsTable';
 import { setAllApplicants } from '@/redux/applicationSlice';
 import { toast } from 'sonner';
 import { useDispatch, useSelector } from 'react-redux';
+import { server } from '@/utils/constant'
 
 const Applicants = () => {
     const params = useParams();
@@ -17,7 +18,7 @@ const Applicants = () => {
         const fetchAllApplicants = async () => {
             try {
                 axios.defaults.withCredentials = true;
-                const res = await axios.get(`https://job-hunt-fawn.vercel.app/api/v1/application/${id}/applicants`);
+                const res = await axios.get(`${server}/api/v1/application/${id}/applicants`);
                 if (res.data.success) {
                     dispatch(setAllApplicants(res.data.job));
                 }

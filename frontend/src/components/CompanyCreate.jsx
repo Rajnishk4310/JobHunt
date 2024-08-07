@@ -8,6 +8,7 @@ import Navbar from './shared/Navbar'
 import { useDispatch } from 'react-redux'
 import { setSingleCompany } from '@/redux/companySlice'
 import { useNavigate } from 'react-router-dom'
+import { server } from '@/utils/constant'
 
 const CompanyCreate = () => {
     const [companyName, setCompanyName] = useState("");
@@ -18,7 +19,7 @@ const CompanyCreate = () => {
 
     const createNewCompany = async () => {
         try {
-            const res = await axios.post("https://job-hunt-fawn.vercel.app/api/v1/company/register", { companyName }, {
+            const res = await axios.post(`${server}/api/v1/company/register`, { companyName }, {
                 headers: {
                     'Content-Type': 'application/json'
                 },

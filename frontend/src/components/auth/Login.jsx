@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import { useDispatch, useSelector } from 'react-redux';
 import { setAuthUser, setLoading } from '@/redux/authSlice';
 import { Loader2 } from 'lucide-react';
+import { server } from '@/utils/constant';
 
 const Login = () => {
     const [input, setInput] = useState({ email: "", password: "", role: "" });
@@ -25,7 +26,7 @@ const Login = () => {
         e.preventDefault();
         try {
             dispatch(setLoading(true));
-            const { data } = await axios.post("https://job-hunt-fawn.vercel.app/api/v1/user/login", input, {
+            const { data } = await axios.post(`${server}/api/v1/user/login`, input, {
                 headers: { 'Content-Type': 'application/json' },
                 withCredentials: true
             });

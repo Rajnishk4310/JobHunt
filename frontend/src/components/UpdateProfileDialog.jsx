@@ -14,6 +14,7 @@ import { Loader2 } from "lucide-react"
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { toast } from "sonner"
+import { server } from '@/utils/constant'
 
 export function UpdateProfileDialog({ open, setOpen }) {
     const { authUser, loading } = useSelector(store => store.auth);
@@ -50,7 +51,7 @@ export function UpdateProfileDialog({ open, setOpen }) {
 
         try {
             dispatch(setLoading(true));
-            const res = await axios.post("https://job-hunt-fawn.vercel.app/api/v1/user/profile/update", formData, {
+            const res = await axios.post( `${server}/api/v1/user/profile/update`, formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data'
                 },

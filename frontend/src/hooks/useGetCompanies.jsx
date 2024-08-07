@@ -2,6 +2,7 @@ import { setCompanies } from "@/redux/companySlice";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { server } from '@/utils/constant'
 
 const useGetCompanies = () => {
     const dispatch = useDispatch();
@@ -15,7 +16,7 @@ const useGetCompanies = () => {
                 const token = localStorage.getItem('authToken');
 
                 // Include the token in the request headers
-                const res = await axios.get("https://job-hunt-fawn.vercel.app/api/v1/company/getcompany", {
+                const res = await axios.get(`${server}/api/v1/company/getcompany`, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }

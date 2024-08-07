@@ -11,6 +11,7 @@ import axios from "axios"
 import { toast } from "sonner"
 import { useDispatch, useSelector } from "react-redux"
 import { setAuthUser } from "@/redux/authSlice"
+import { server } from '@/utils/constant'
 
 export function ProfilePopover() {
     const dispatch = useDispatch();
@@ -18,7 +19,7 @@ export function ProfilePopover() {
     const { authUser } = useSelector(store => store.auth);
     const logoutHandler = async () => {
         try {
-            const res = await axios.get("https://job-hunt-fawn.vercel.app/api/v1/user/logout", { withCredentials: true });
+            const res = await axios.get( `${server}/api/v1/user/logout`, { withCredentials: true });
             
             if (res.data.success) {
                 dispatch(setAuthUser(null));

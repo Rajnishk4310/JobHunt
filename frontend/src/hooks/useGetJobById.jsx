@@ -2,6 +2,7 @@ import { setSingleJobById } from "@/redux/jobSlice";
 import axios from "axios";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { server } from '@/utils/constant'
 
 const useGetJobById = (id) => {
   const dispatch = useDispatch();
@@ -10,7 +11,7 @@ const useGetJobById = (id) => {
     const fetchJobDetails = async () => {
       try {
         axios.defaults.withCredentials = true;
-        const res = await axios.get(`https://job-hunt-fawn.vercel.app/api/v1/job/${id}`);
+        const res = await axios.get(`${server}/api/v1/job/${id}`);
         if (res.data.success) {
           dispatch(setSingleJobById(res.data.job));
         }

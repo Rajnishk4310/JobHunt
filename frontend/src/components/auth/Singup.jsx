@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLoading } from '@/redux/authSlice';
 import { Loader2 } from 'lucide-react';
+import { server } from '@/utils/constant'
 
 const Signup = () => {
   const [input, setInput] = useState({
@@ -46,7 +47,7 @@ const Signup = () => {
 
     try {
       dispatch(setLoading(true));
-      const res = await axios.post("https://job-hunt-fawn.vercel.app/api/v1/user/register", formData, {
+      const res = await axios.post(`${server}/api/v1/user/register`, formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         },

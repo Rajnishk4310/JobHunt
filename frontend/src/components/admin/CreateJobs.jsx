@@ -9,6 +9,7 @@ import { setLoading } from '@/redux/authSlice'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '../ui/select'
 import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
+import { server } from '@/utils/constant'
 
 const CreateJobs = () => {
     const [input, setInput] = useState({
@@ -38,7 +39,7 @@ const CreateJobs = () => {
         e.preventDefault();
         try {
             dispatch(setLoading(true));
-            const res = await axios.post(`https://job-hunt-fawn.vercel.app/api/v1/job/postjob`, input, {
+            const res = await axios.post(  `${server}/api/v1/job/postjob`, input, {
                 headers: {
                     'Content-Type': 'application/json'
                 },

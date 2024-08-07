@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { ArrowLeft } from 'lucide-react';
 import useGetCompanyById from '@/hooks/useGetCompanyById';
+import { server } from '@/utils/constant'
 
 const CompanySetup = () => {
     const params = useParams();
@@ -44,7 +45,7 @@ const CompanySetup = () => {
             formData.append('file', input.file);
         }
         try {
-            const res = await axios.put(`https://job-hunt-fawn.vercel.app/api/v1/company/update/${params.id}`, formData, {
+            const res = await axios.put( `${server}/api/v1/company/update/${params.id}`, formData, {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 },

@@ -14,6 +14,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { motion } from "framer-motion";
 import axios from "axios";
 import { toast } from "sonner";
+import { server } from '@/utils/constant'
 
 const shortlistingStatus = ["Accepted", "Rejected"];
 
@@ -23,7 +24,7 @@ const ApplicantsTable = () => {
 
     const statusHandler = async (status, id) => {
         try {
-            const res = await axios.post(`https://job-hunt-fawn.vercel.app/api/v1/application/status/${id}/update`, {status}, {
+            const res = await axios.post(`${server}/api/v1/application/status/${id}/update`, {status}, {
                 withCredentials: true
             });
             if(res.data.success){ 

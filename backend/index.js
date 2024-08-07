@@ -13,7 +13,7 @@ import testCloudinaryUpload from "./testCloudinaryUpload.js";
 dotenv.config();
 
 // Test Cloudinary Upload
-testCloudinaryUpload();
+// testCloudinaryUpload();
 
 // Connect DB
 connectDB();
