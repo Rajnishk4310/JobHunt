@@ -1,0 +1,9 @@
+{
+    "build": {
+      "builder": "NIXPACKS",  // or "DOCKERFILE"
+      "baseDirectory": "./server", // If your server code is inside a "server" directory
+      "buildCommand": "npm install && npm run build",
+      "startCommand": "npm start"
+    }
+  }
+  

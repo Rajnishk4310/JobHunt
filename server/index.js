@@ -38,8 +38,6 @@ app.use(cors(corsOptions));
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Serve static files from the React app's dist directory
-app.use(express.static(path.join(__dirname, '../client/dist')));
 
 // API Routes
 app.use("/api/v1/user", userRoute);
